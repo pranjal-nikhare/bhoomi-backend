@@ -1,0 +1,42 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.npm
+.yarn-integrity
+.yarn-lock
+
+# Build artifacts
+build/
+dist/
+coverage/
+logs/
+.nyc_output
+
+# Environment-specific files
+.env
+.env.*
+
+# IDE-specific files
+.vscode/
+
+# Testing and debugging files
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Other tools and dependencies
+bower_components/
+jspm_packages/
+web_modules/
+.cache/
+.next/
+.nuxt/
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vscode-test
