@@ -3,6 +3,7 @@ import zod from "zod";
 import { getHash } from "../../hasher.js";
 import { User } from "../../database.js";
 import { signer, verifyToken } from "../../middleware.js";
+import { sendOTP } from "../../2factor.js";
 
 const router = express.Router();
 
@@ -96,11 +97,31 @@ router.post("/login", async (req, res) => {
   // const user
 });
 
+const forgotPasswordSchema = zod.object({
+  phoneNumber: zod.string().min(10),
+});
+
 router.post("/forgot-password", async (req, res) => {
+  // const body = req.body;
+  // const phoneNumber = body.phoneNumber;
+
   const body = req.body;
+  const usr = forgotPasswordSchema.safeParse(body);
+
+  if (!usr.success) {
+    return res.json({ message: "Invalid number" });
+  }
   const phoneNumber = body.phoneNumber;
 
   const user = await User.findOne({ phoneNumber: phoneNumber });
+  if (!user) {
+    return res.json({ message: "Please recheck the number!" });
+  } else {
+    await sendOTP(phoneNumber).then((response) => {
+      // console.log(response);
+      res.json({ message: "OTP sent successfully" });
+    });
+  }
 });
 
 export default router;
